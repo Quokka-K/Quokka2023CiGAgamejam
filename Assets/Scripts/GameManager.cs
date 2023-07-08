@@ -31,7 +31,19 @@ public class GameManager : MonoBehaviour
         stepRemain += step;
         Debug.Log($"剩余步数：{stepRemain}，最大步数：{stepMax}");
     }
-
+    public float RandomCreate(int n,Transform obj,Transform parent)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            Instantiate(obj,parent).position
+                = new Vector3(Random.Range(-19, 19), 0, Random.Range(-8, 10));
+        }
+        return Time.time;
+    }
+    public Vector3 RandomPoint()
+    {
+        return new Vector3(Random.Range(-19, 19), 0, Random.Range(-8, 10));
+    }
     // Update is called once per frame
     void Update()
     {

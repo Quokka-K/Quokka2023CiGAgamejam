@@ -11,15 +11,15 @@ public class PlayerC : MonoBehaviour
     [Header("贝塞尔曲线参数")]
     private Vector3 StartPos;//起始位置，也就是玩家的位置
     private Vector3 ControlPoint;//控制点，控制曲线的变化
-    private Vector3 TargetPos;//目标位置
+    public Transform TerminalPos;//目标位置
     private float t = 0f;
     public float speed = 0.12f;//曲线上移动的速度
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
         StartPos = transform.position;
         ControlPoint = transform.position;
-        TargetPos = transform.position;
     }
     private void Update()
     {
@@ -36,10 +36,10 @@ public class PlayerC : MonoBehaviour
         {
             MoveOnTheLine();
         }
-        if (Input.GetMouseButton(0)&& Input.GetMouseButton(1))//同时按住左右键可以设置目标位置
+        /*if (Input.GetMouseButton(0)&& Input.GetMouseButton(1))//同时按住左右键可以设置目标位置
         {
             TargetPos = MouseFollow();
-        }
+        }*/
         CheckMouseUp();//检测是否鼠标左键抬起以改变剩余次数
         UpdateLineRenderer();
     }
@@ -74,7 +74,7 @@ public class PlayerC : MonoBehaviour
     {
         // 计算贝塞尔曲线上的点
         Vector3 point = CalculateBezierPoint(t, StartPos,
-            ControlPoint, TargetPos);
+            ControlPoint, TerminalPos.position);
         // 移动物体到贝塞尔曲线上的点
         transform.position = point;
         // 根据速度调整插值参数的变化速率
@@ -111,7 +111,7 @@ public class PlayerC : MonoBehaviour
         for (int i = 0; i < numPoints; i++)
         {
             float t = i / (float)(numPoints - 1);
-            Vector3 point = CalculateBezierPoint(t, StartPos, ControlPoint, TargetPos);
+            Vector3 point = CalculateBezierPoint(t, StartPos, ControlPoint, TerminalPos.position);
             lineRenderer.SetPosition(i, point);
         }
     }
