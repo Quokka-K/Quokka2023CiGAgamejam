@@ -40,6 +40,7 @@ public class PlayerC : MonoBehaviour
         {
             TargetPos = MouseFollow();
         }
+        CheckMouseUp();//检测是否鼠标左键抬起以改变剩余次数
         UpdateLineRenderer();
     }
 
@@ -112,6 +113,20 @@ public class PlayerC : MonoBehaviour
             float t = i / (float)(numPoints - 1);
             Vector3 point = CalculateBezierPoint(t, StartPos, ControlPoint, TargetPos);
             lineRenderer.SetPosition(i, point);
+        }
+    }
+    /// <summary>
+    /// 检测鼠标左键是否抬起以改变剩余次数
+    /// </summary>
+    void CheckMouseUp()
+    {
+        if(Input.GetMouseButtonUp(0))
+        {
+            GameManager.instance.ChangeStep(-1);
+            if(GameManager.instance.stepRemain <= 0)
+            {
+                GameManager.instance.GameLose();
+            }
         }
     }
 }
